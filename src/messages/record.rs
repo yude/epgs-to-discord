@@ -7,7 +7,7 @@ use chrono::{Local, TimeZone};
 use std::env;
 use webhook::client::WebhookResult;
 
-pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
+pub async fn send_record(mode: &str) -> WebhookResult<()> {
     let client = client::get_client();
 
     let settings = Settings::new(&get_executable_path().display().to_string());
@@ -16,11 +16,9 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
 
     let mode_title: &str;
     match mode {
-        "reserve" => mode_title = "🆕 予約追加",
-        "update" => mode_title = "🔃 予約更新",
-        "deleted" => mode_title = "🗑 予約削除",
-        "prestart" => mode_title = "🆚 予約準備",
-        "prepfailed" => mode_title = "❌ 予約準備失敗",
+        "start" => mode_title = ":record_button: 録画開始",
+        "end" => mode_title = ":stop_button: 録画終了",
+        "recfailed" => mode_title = ":warning: 録画失敗",
         &_ => mode_title = "",
     }
 
@@ -61,6 +59,15 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
         .format("%Y/%m/%d %H:%M:%S %Z")
         .to_string();
 
+    let error_cnt = env::var("ERROR_CNT");
+    let error_cnt = error_cnt.as_ref().map(String::as_str).unwrap_or("N/A");
+
+    let drop_cnt = env::var("DROP_CNT");
+    let drop_cnt = drop_cnt.as_ref().map(String::as_str).unwrap_or("N/A");
+
+    let scrambling_cnt = env::var("SCRAMBLING_CNT");
+    let scrambling_cnt = scrambling_cnt.as_ref().map(String::as_str).unwrap_or("N/A");
+
     client
         .send(|message| {
             message.username(name).embed(|embed| {
@@ -73,6 +80,10 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
                     .field("番組詳細", program_extended, false)
                     .field("開始日時", &program_start_at, true)
                     .field("終了日時", &program_end_at, true)
+                    .field("", "", true)
+                    .field("エラー", &error_cnt, true)
+                    .field("ドロップ", &drop_cnt, true)
+                    .field("スクランブル", &scrambling_cnt, true)
             })
         })
         .await?;
