@@ -1,6 +1,6 @@
 [package]
 name = "epgs-to-discord"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["yude"]
 description = "Post EPGStation's notifications to Discord via Webhook"
