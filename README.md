@@ -1,10 +1,9 @@
 # EPGS-to-Discord
-Send EPGStation notifications to Discord via Webhook  
-Currently this software does NOT support i18n (only Japanese).
+⏺ EPGStation の通知を Discord に送信します
 
-## Setup
-* Add the following into your configuration of EPGStation.
-    * You can ignore unnecessary lines that you don't need.
+## 設定
+* 以下を EPGStation の設定ファイル (`config/config.yml`) に追記します。
+    * 通知を希望しないものについては、その行を無視できます。
     ```
     isEnabledDropCheck: true
     reserveNewAddtionCommand: './epgs-to-discord reserve'
@@ -17,6 +16,16 @@ Currently this software does NOT support i18n (only Japanese).
     recordingFailedCommand: './epgs-to-discord recfailed'
     encodingFinishCommand: './epgs-to-discord finish'
     ```
+* `config.toml` を、このソフトウェアの実行ファイルが存在するディレクトリに作成します。内容は以下のようにし、適宜必要な値を入力します。
+    ```toml
+    [misc]
+    # ボットの名前
+    name = "EPGStation"
 
-## License
+    [credentials]
+    # Discord 上チャンネルに対応する Webhook の URL
+    webhook_url = ""
+    ```
+
+## ライセンス
 MIT
