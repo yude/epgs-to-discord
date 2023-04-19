@@ -45,7 +45,7 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
         .map(String::as_str)
         .unwrap_or("");
     let program_start_at = Local
-        .timestamp_millis_opt(program_start_at_unixtime.parse::<i64>().unwrap() * 1000)
+        .timestamp_millis_opt(program_start_at_unixtime.parse::<i64>().unwrap())
         .unwrap()
         .format("%Y/%m/%d %H:%M:%S %Z")
         .to_string();
@@ -56,7 +56,7 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
         .map(String::as_str)
         .unwrap_or("");
     let program_end_at = Local
-        .timestamp_millis_opt(program_end_at_unixtime.parse::<i64>().unwrap() * 1000)
+        .timestamp_millis_opt(program_end_at_unixtime.parse::<i64>().unwrap())
         .unwrap()
         .format("%Y/%m/%d %H:%M:%S %Z")
         .to_string();
