@@ -1,6 +1,11 @@
 # EPGS-to-Discord
 ⏺ EPGStation の通知を Discord に送信します
 
+## インストール
+```sh
+cargo install epgs-to-discord
+```
+
 ## 設定
 * 以下を EPGStation の設定ファイル (`config/config.yml`) に追記します。
     * 通知を希望しないものについては、その行を無視できます。
