@@ -1,0 +1,14 @@
+[package]
+name = "epgs-to-discord"
+version = "0.1.0"
+edition = "2021"
+authors = ["yude"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+webhook = "2.1.2"
+tokio = { version = "1.27.0", features = ["full"] }
+config = "0.13.1"
+serde_derive = "1.0.160"
+serde = "1.0.160"
