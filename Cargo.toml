@@ -3,8 +3,10 @@ name = "epgs-to-discord"
 version = "1.0.0"
 edition = "2021"
 authors = ["yude"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Post EPGStation's notifications to Discord via Webhook"
+license = "MIT"
+repository = "https://github.com/yude/epgs-to-discord"
+readme = "README.md"
 
 [dependencies]
 webhook = "2.1.2"
