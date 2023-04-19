@@ -16,5 +16,4 @@ serde_derive = "1.0.160"
 serde = "1.0.160"
 clap = { version = "4.2.3", features = ["derive"] }
 chrono = "0.4.24"
-openssl = { version = "0.10.50", features = ["vendored"] }
 home = "0.5.4"
