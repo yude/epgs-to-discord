@@ -16,7 +16,7 @@
     recordingFailedCommand: './epgs-to-discord recfailed'
     encodingFinishCommand: './epgs-to-discord finish'
     ```
-* `config.toml` を、このソフトウェアの実行ファイルが存在するディレクトリに作成します。内容は以下のようにし、適宜必要な値を入力します。
+* `$HOME/.config/epgs-to-discord/config.toml` を作成します。内容は以下のようにし、適宜必要な値を入力します。
     ```toml
     [misc]
     # ボットの名前
