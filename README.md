@@ -10,7 +10,7 @@ cargo install epgs-to-discord
 * 以下を EPGStation の設定ファイル (`config/config.yml`) に追記します。
     * 通知を希望しないものについては、その行を無視できます。
     ```
-    isEnabledDropCheck: true
+    isEnabledDropCheck: true # 重複の恐れがあるので確認してください。
     reserveNewAddtionCommand: 'epgs-to-discord reserve'
     reserveUpdateCommand: 'epgs-to-discord update'
     reservedeletedCommand: 'epgs-to-discord deleted'
