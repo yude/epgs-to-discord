@@ -2,7 +2,7 @@
 Send EPGStation notifications to Discord via Webhook  
 Currently this software does NOT support i18n (only Japanese).
 
-# Setup
+## Setup
 * Add the following into your configuration of EPGStation.
     * You can ignore unnecessary lines that you don't need.
     ```
