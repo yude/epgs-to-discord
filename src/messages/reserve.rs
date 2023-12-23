@@ -42,25 +42,36 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
     let program_extended = env::var("HALF_WIDTH_EXTENDED");
     let program_extended = program_extended.as_ref().map(String::as_str).unwrap_or("");
 
-    let program_start_at_timestamp =
-        NaiveDateTime::from_timestamp_opt(env::var("ENDAT")?.parse::<i64>().unwrap(), 0);
-    let program_end_at_timestamp =
-        NaiveDateTime::from_timestamp_opt(env::var("ENDAT")?.parse::<i64>().unwrap(), 0);
+    let program_start_at = match env::var("STARTAT") {
+        Ok(value) => {
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let res = match ts {
+                Some(v) => Tokyo
+                    .from_utc_datetime(&v)
+                    .format("%Y/%m/%d %H:%M:%S %Z")
+                    .to_string(),
+                None => "未定".to_string(),
+            };
 
-    let program_start_at = match program_start_at_timestamp {
-        Some(v) => Tokyo
-            .from_utc_datetime(&v)
-            .format("%Y/%m/%d %H:%M:%S %Z")
-            .to_string(),
-        None => "未定".to_string(),
+            res
+        }
+        Err(_) => "未定".to_string(),
     };
 
-    let program_end_at = match program_end_at_timestamp {
-        Some(v) => Tokyo
-            .from_utc_datetime(&v)
-            .format("%Y/%m/%d %H:%M:%S %Z")
-            .to_string(),
-        None => "未定".to_string(),
+    let program_end_at = match env::var("ENDAT") {
+        Ok(value) => {
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let res = match ts {
+                Some(v) => Tokyo
+                    .from_utc_datetime(&v)
+                    .format("%Y/%m/%d %H:%M:%S %Z")
+                    .to_string(),
+                None => "未定".to_string(),
+            };
+
+            res
+        }
+        Err(_) => "未定".to_string(),
     };
 
     client
