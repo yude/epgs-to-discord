@@ -4,8 +4,8 @@ use crate::utils::get_executable_path;
 extern crate chrono;
 
 use chrono::NaiveDateTime;
-use chrono::{TimeZone};
-use chrono_tz::{Asia::Tokyo};
+use chrono::TimeZone;
+use chrono_tz::Asia::Tokyo;
 
 use std::env;
 use webhook::client::WebhookResult;
@@ -42,7 +42,26 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
     let program_extended = env::var("HALF_WIDTH_EXTENDED");
     let program_extended = program_extended.as_ref().map(String::as_str).unwrap_or("");
 
-    let program_end_at = NaiveDateTime::from_timestamp(env::var("ENDAT")?.parse::<i64>().unwrap(), 0);
+    let program_start_at_timestamp =
+        NaiveDateTime::from_timestamp_opt(env::var("ENDAT")?.parse::<i64>().unwrap(), 0);
+    let program_end_at_timestamp =
+        NaiveDateTime::from_timestamp_opt(env::var("ENDAT")?.parse::<i64>().unwrap(), 0);
+
+    let program_start_at = match program_start_at_timestamp {
+        Some(v) => Tokyo
+            .from_utc_datetime(&v)
+            .format("%Y/%m/%d %H:%M:%S %Z")
+            .to_string(),
+        None => "未定".to_string(),
+    };
+
+    let program_end_at = match program_end_at_timestamp {
+        Some(v) => Tokyo
+            .from_utc_datetime(&v)
+            .format("%Y/%m/%d %H:%M:%S %Z")
+            .to_string(),
+        None => "未定".to_string(),
+    };
 
     client
         .send(|message| {
@@ -54,8 +73,8 @@ pub async fn send_reserve(mode: &str) -> WebhookResult<()> {
                     .field("番組名", program_name, false)
                     .field("番組概要", program_desc, false)
                     .field("番組詳細", program_extended, false)
-                    .field("開始日時", &Tokyo.from_utc_datetime(&program_end_at).format("%Y/%m/%d %H:%M:%S %Z").to_string(), true)
-                    .field("終了日時", &Tokyo.from_utc_datetime(&program_end_at).format("%Y/%m/%d %H:%M:%S %Z").to_string(), true)
+                    .field("開始日時", &program_start_at, true)
+                    .field("終了日時", &program_end_at, true)
             })
         })
         .await?;
