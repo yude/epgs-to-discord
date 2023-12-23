@@ -1,6 +1,6 @@
 [package]
 name = "epgs-to-discord"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 authors = ["yude"]
 description = "Post EPGStation's notifications to Discord via Webhook"
@@ -16,4 +16,5 @@ serde_derive = "1.0.160"
 serde = "1.0.160"
 clap = { version = "4.2.3", features = ["derive"] }
 chrono = "0.4.24"
+chrono-tz = "0.8.4"
 home = "0.5.4"
