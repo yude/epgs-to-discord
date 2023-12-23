@@ -3,7 +3,10 @@ use crate::settings::load::Settings;
 use crate::utils::get_executable_path;
 extern crate chrono;
 
-use chrono::{Local, TimeZone};
+use chrono::NaiveDateTime;
+use chrono::TimeZone;
+use chrono_tz::Asia::Tokyo;
+
 use std::env;
 use webhook::client::WebhookResult;
 
@@ -37,27 +40,37 @@ pub async fn send_record(mode: &str) -> WebhookResult<()> {
     let program_extended = env::var("HALF_WIDTH_EXTENDED");
     let program_extended = program_extended.as_ref().map(String::as_str).unwrap_or("");
 
-    let program_start_at_unixtime = env::var("STARTAT");
-    let program_start_at_unixtime = program_start_at_unixtime
-        .as_ref()
-        .map(String::as_str)
-        .unwrap_or("");
-    let program_start_at = Local
-        .timestamp_millis_opt(program_start_at_unixtime.parse::<i64>().unwrap())
-        .unwrap()
-        .format("%Y/%m/%d %H:%M:%S %Z")
-        .to_string();
+    let program_start_at = match env::var("STARTAT") {
+        Ok(value) => {
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let res = match ts {
+                Some(v) => Tokyo
+                    .from_utc_datetime(&v)
+                    .format("%Y/%m/%d %H:%M:%S %Z")
+                    .to_string(),
+                None => "未定".to_string(),
+            };
 
-    let program_end_at_unixtime = env::var("ENDAT");
-    let program_end_at_unixtime = program_end_at_unixtime
-        .as_ref()
-        .map(String::as_str)
-        .unwrap_or("");
-    let program_end_at = Local
-        .timestamp_millis_opt(program_end_at_unixtime.parse::<i64>().unwrap())
-        .unwrap()
-        .format("%Y/%m/%d %H:%M:%S %Z")
-        .to_string();
+            res
+        }
+        Err(_) => "未定".to_string(),
+    };
+
+    let program_end_at = match env::var("ENDAT") {
+        Ok(value) => {
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let res = match ts {
+                Some(v) => Tokyo
+                    .from_utc_datetime(&v)
+                    .format("%Y/%m/%d %H:%M:%S %Z")
+                    .to_string(),
+                None => "未定".to_string(),
+            };
+
+            res
+        }
+        Err(_) => "未定".to_string(),
+    };
 
     let error_cnt = env::var("ERROR_CNT");
     let error_cnt = error_cnt.as_ref().map(String::as_str).unwrap_or("N/A");
