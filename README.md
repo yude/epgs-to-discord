@@ -14,7 +14,7 @@ cargo install epgs-to-discord
     reserveNewAddtionCommand: 'epgs-to-discord reserve'
     reserveUpdateCommand: 'epgs-to-discord update'
     reservedeletedCommand: 'epgs-to-discord deleted'
-    recordingPreStartCommand: epgs-to-discord prestart'
+    recordingPreStartCommand: 'epgs-to-discord prestart'
     recordingPrepRecFailedCommand: 'epgs-to-discord prepfailed'
     recordingStartCommand: 'epgs-to-discord start'
     recordingFinishCommand: 'epgs-to-discord end'
