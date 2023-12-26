@@ -42,7 +42,7 @@ pub async fn send_record(mode: &str) -> WebhookResult<()> {
 
     let program_start_at = match env::var("STARTAT") {
         Ok(value) => {
-            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap() / 1000, 0);
             let res = match ts {
                 Some(v) => Tokyo
                     .from_utc_datetime(&v)
@@ -58,7 +58,7 @@ pub async fn send_record(mode: &str) -> WebhookResult<()> {
 
     let program_end_at = match env::var("ENDAT") {
         Ok(value) => {
-            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap(), 0);
+            let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap() / 1000, 0);
             let res = match ts {
                 Some(v) => Tokyo
                     .from_utc_datetime(&v)
