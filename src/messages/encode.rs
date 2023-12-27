@@ -28,12 +28,6 @@ pub async fn send_encode(mode: &str) -> WebhookResult<()> {
     let program_name = env::var("HALF_WIDTH_NAME");
     let program_name = program_name.as_ref().map(String::as_str).unwrap_or("");
 
-    let program_desc = env::var("HALF_WIDTH_DESCRIPTION");
-    let program_desc = program_desc.as_ref().map(String::as_str).unwrap_or("");
-
-    let program_extended = env::var("HALF_WIDTH_EXTENDED");
-    let program_extended = program_extended.as_ref().map(String::as_str).unwrap_or("");
-
     let encode_mode = env::var("MODE");
     let encode_mode = encode_mode.as_ref().map(String::as_str).unwrap_or("");
 
@@ -49,8 +43,6 @@ pub async fn send_encode(mode: &str) -> WebhookResult<()> {
                     .field("局名", channel_name, true)
                     .field("エンコード モード", &encode_mode, true)
                     .field("番組名", program_name, false)
-                    .field("番組概要", program_desc, false)
-                    .field("番組詳細", program_extended, false)
                     .field("保存先", &output_path, false)
             })
         })

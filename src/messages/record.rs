@@ -37,9 +37,6 @@ pub async fn send_record(mode: &str) -> WebhookResult<()> {
     let program_desc = env::var("HALF_WIDTH_DESCRIPTION");
     let program_desc = program_desc.as_ref().map(String::as_str).unwrap_or("");
 
-    let program_extended = env::var("HALF_WIDTH_EXTENDED");
-    let program_extended = program_extended.as_ref().map(String::as_str).unwrap_or("");
-
     let program_start_at = match env::var("STARTAT") {
         Ok(value) => {
             let ts = NaiveDateTime::from_timestamp_opt(value.parse::<i64>().unwrap() / 1000, 0);
@@ -90,7 +87,6 @@ pub async fn send_record(mode: &str) -> WebhookResult<()> {
                     .field("局名", channel_name, true)
                     .field("番組名", program_name, false)
                     .field("番組概要", program_desc, false)
-                    .field("番組詳細", program_extended, false)
                     .field("開始日時", &program_start_at, true)
                     .field("終了日時", &program_end_at, true)
                     .field("", "", true)
